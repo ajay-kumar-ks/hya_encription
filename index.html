@@ -8,13 +8,15 @@
 <body>
     <textarea name="" id="words"></textarea>
     <input type="text" id="key" placeholder="Enter your key">
-    <button id="submit">submit</button>
+    <button id="submit">encrypt</button>
+    <button id="decode">decript</button>
 </body>
 </html>
 <script>
     let words = document.getElementById('words');
     let key = document.getElementById('key');
-    let submitButton = document.getElementById('submit'); // Get the button element
+    let encryptButton = document.getElementById('submit'); // Get the button element
+    let decryptButton = document.getElementById('decode'); // Get the button element
     var wordsArray = [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
         'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -31,11 +33,21 @@
         'k','6', 'l','&', 'm', '7','n','*', 'o','8', 'p', '?','q','9', 'r','<', 's','0', 't','>',
         'u', 'v', 'w', 'x', 'y', 'z'
     ];
+
+    var encryptIndexKeys = {
+        a: 0,  1: 1,  b: 2,  "@": 3,  c: 4,  2: 5,  d: 6,  "#": 7,  
+        e: 8,  3: 9,  f: 10,  "$": 11,  g: 12,  4: 13,  h: 14,  "%": 15,  
+        i: 16,  5: 17,  j: 18,  "^": 19,  k: 20,  6: 21,  l: 22,  "&": 23,  
+        m: 24,  7: 25,  n: 26,  "*": 27,  o: 28,  8: 29,  p: 30,  "?": 31,  
+        q: 32,  9: 33,  r: 34,  "<": 35,  s: 36,  0: 37,  t: 38,  ">": 39,  
+        u: 40,  v: 41,  w: 42,  x: 43,  y: 44,  z: 45
+    };    
     
-    submitButton.addEventListener('click', function () {
+    
+    encryptButton.addEventListener('click', function () {
         var firstEcryptArray = [];
         var wordsLength = words.value.length;
-        for (let i = 0; i < words.value.length; i++) {
+        for (let i = 0; i < wordsLength; i++) {
             let currentChar = words.value[i]; // Get the current character
             if(wordsIndexArray[currentChar] != undefined){
                 let newIndexInWordsArray = wordsIndexArray[currentChar] + wordsLength;
@@ -46,5 +58,69 @@
             }
         }
         console.log("first encrypted  == ",firstEcryptArray);
+        if(key.value != ''){
+            let keyLength = key.value.length;
+            for (let j = 0; j < keyLength; j++) {
+                let currentCharKey = key.value[j]; 
+                if(encryptIndexKeys[currentCharKey] != undefined){
+                    let keyIndexInKeys = encryptIndexKeys[currentCharKey];
+                    for (let k = 0; k < firstEcryptArray.length; k++) {
+                      currentEcrptedChar = firstEcryptArray[k];
+                        if(encryptIndexKeys[currentEcrptedChar] != undefined){
+                            let encriptedCharIndexInKeys = encryptIndexKeys[currentEcrptedChar];
+                            let newIndexInEncryptKeys = encriptedCharIndexInKeys + keyIndexInKeys;
+                            if(newIndexInEncryptKeys > 45){
+                                newIndexInEncryptKeys = (newIndexInEncryptKeys%45);
+                            }
+                            firstEcryptArray[k] = encryptKeys[newIndexInEncryptKeys];
+                        }
+                    }
+                }
+            }
+        }
+        console.log("second encrypted  == ",firstEcryptArray);
+    });
+    
+    
+    decryptButton.addEventListener('click', function () {
+        var firstEcryptArray = [];
+        var wordsLength = words.value.length;
+        if(key.value != ''){
+            let keyLength = key.value.length;
+            for (let j = 0; j < keyLength; j++) {
+                let currentCharKey = key.value[j]; 
+                if(encryptIndexKeys[currentCharKey] != undefined){
+                    let keyIndexInKeys = encryptIndexKeys[currentCharKey];
+                    for (let k = 0; k < wordsLength; k++) {
+                      currentEcrptedChar = words.value[k];
+                        if(encryptIndexKeys[currentEcrptedChar] != undefined){
+                            console.log("encryptIndexKeys[currentEcrptedChar] == ",encryptIndexKeys[currentEcrptedChar]);
+                            let encriptedCharIndexInKeys = encryptIndexKeys[currentEcrptedChar];
+                            let newIndexInEncryptKeys = encriptedCharIndexInKeys - keyIndexInKeys;
+                            if(newIndexInEncryptKeys < 0){
+                                newIndexInEncryptKeys = (newIndexInEncryptKeys + 45);
+                            }
+                            firstEcryptArray[k] = encryptKeys[newIndexInEncryptKeys];
+                        }
+                    }
+                }
+            }
+            console.log("second decript  == ",firstEcryptArray);
+        }else{
+            for (let i = 0; i < words.value.length; i++) {
+                let currentChar = words.value[i]; // Get the current character
+                if(wordsIndexArray[currentChar] != undefined){
+                    let newIndexInWordsArray = wordsIndexArray[currentChar] - wordsLength;
+                    if(newIndexInWordsArray < 0){
+                        let positiveNumber = Math.abs(newIndexInWordsArray);
+                        let elementPosition = 25 - positiveNumber + 1
+                        newIndexInWordsArray = elementPosition;
+                    }
+                    firstEcryptArray.push(wordsArray[newIndexInWordsArray]);
+                }
+            }
+            console.log("first decript  == ",firstEcryptArray);
+        }
+       
     });
 </script>
