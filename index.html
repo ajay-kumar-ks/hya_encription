@@ -76,9 +76,9 @@
                         }
                     }
                 }
+                console.log("encrypt ",j ,"th form  == ",firstEcryptArray);
             }
         }
-        console.log("second encrypted  == ",firstEcryptArray);
     });
     
     
@@ -87,14 +87,13 @@
         var wordsLength = words.value.length;
         if(key.value != ''){
             let keyLength = key.value.length;
-            for (let j = 0; j < keyLength; j++) {
+            for (let j = keyLength - 1; j >= 0; j--) {
                 let currentCharKey = key.value[j]; 
                 if(encryptIndexKeys[currentCharKey] != undefined){
                     let keyIndexInKeys = encryptIndexKeys[currentCharKey];
                     for (let k = 0; k < wordsLength; k++) {
                       currentEcrptedChar = words.value[k];
                         if(encryptIndexKeys[currentEcrptedChar] != undefined){
-                            console.log("encryptIndexKeys[currentEcrptedChar] == ",encryptIndexKeys[currentEcrptedChar]);
                             let encriptedCharIndexInKeys = encryptIndexKeys[currentEcrptedChar];
                             let newIndexInEncryptKeys = encriptedCharIndexInKeys - keyIndexInKeys;
                             if(newIndexInEncryptKeys < 0){
@@ -104,8 +103,22 @@
                         }
                     }
                 }
+                console.log("decript ",j ,"th form  == ",firstEcryptArray);
             }
-            console.log("second decript  == ",firstEcryptArray);
+
+            for (let n = 0; n < firstEcryptArray.length; n++) {
+                let currentChar = firstEcryptArray[n];
+                if(wordsIndexArray[currentChar] != undefined){
+                    let newIndexInWordsArray = wordsIndexArray[currentChar] - firstEcryptArray.length;
+                    if(newIndexInWordsArray < 0){
+                        let positiveNumber = Math.abs(newIndexInWordsArray);
+                        let elementPosition = 25 - positiveNumber + 1
+                        newIndexInWordsArray = elementPosition;
+                    }
+                    firstEcryptArray[n] = wordsArray[newIndexInWordsArray];
+                }
+            }
+            console.log("final result == ",firstEcryptArray);
         }else{
             for (let i = 0; i < words.value.length; i++) {
                 let currentChar = words.value[i]; // Get the current character
