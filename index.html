@@ -178,12 +178,12 @@
     var wordsArray = [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
         'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-        'u', 'v', 'w', 'x', 'y', 'z'
+        'u', 'v', 'w', 'x', 'y', 'z' , '^'
     ];
     var wordsIndexArray = {
         a: 0,  b: 1,  c: 2,  d: 3,  e: 4,  f: 5,  g: 6,  h: 7,  i: 8,  j: 9,
         k: 10, l: 11, m: 12, n: 13, o: 14, p: 15, q: 16, r: 17, s: 18, t: 19,
-        u: 20, v: 21, w: 22, x: 23, y: 24, z: 25
+        u: 20, v: 21, w: 22, x: 23, y: 24, z: 25 ,'^': 26
     };
     
     var encryptKeys = [
@@ -205,21 +205,31 @@
     encryptButton.addEventListener('click', function () {
         var firstEcryptArray = [];
         var wordsLength = words.value.length;
+        var lowerCaseWords = words.value.toLowerCase(); 
+       
         for (let i = 0; i < wordsLength; i++) {
-            let currentChar = words.value[i]; // Get the current character
+            let currentChar = lowerCaseWords[i];
+            if(currentChar == ' '){
+                currentChar = '^';
+            }
             if(wordsIndexArray[currentChar] != undefined){
                 let newIndexInWordsArray = wordsIndexArray[currentChar] + wordsLength;
-                if(newIndexInWordsArray > 25){
-                    newIndexInWordsArray = (newIndexInWordsArray%25)-1;
+                if(newIndexInWordsArray > 26){
+                    newIndexInWordsArray = (newIndexInWordsArray%26)-1;
                 }
                 firstEcryptArray.push(wordsArray[newIndexInWordsArray]);
             }
         }
+
        
         if(key.value != ''){
+            var lowerCaseKey = key.value.toLowerCase();
             let keyLength = key.value.length;
             for (let j = 0; j < keyLength; j++) {
-                let currentCharKey = key.value[j]; 
+                let currentCharKey = lowerCaseKey[j];
+                if(currentCharKey == ' '){
+                    continue;
+                }
                 if(encryptIndexKeys[currentCharKey] != undefined){
                     let keyIndexInKeys = encryptIndexKeys[currentCharKey];
                     for (let k = 0; k < firstEcryptArray.length; k++) {
@@ -245,15 +255,17 @@
     decryptButton.addEventListener('click', function () {
         var firstEcryptArray = [];
         var wordsLength = words.value.length;
+        var lowerCaseWords = words.value.toLowerCase(); 
         if(key.value != ''){
+            var lowerCaseKey = key.value.toLowerCase();
             let keyLength = key.value.length;
             for (let j = keyLength - 1; j >= 0; j--) {
-                let currentCharKey = key.value[j]; 
+                let currentCharKey = lowerCaseKey[j]; 
                 if(encryptIndexKeys[currentCharKey] != undefined){
                     let keyIndexInKeys = encryptIndexKeys[currentCharKey];
                     if(j == keyLength - 1){
                         for (let k = 0; k < wordsLength; k++) {
-                            currentEcrptedChar = words.value[k];
+                            currentEcrptedChar = lowerCaseWords[k];
                             if(encryptIndexKeys[currentEcrptedChar] != undefined){
                                 let encriptedCharIndexInKeys = encryptIndexKeys[currentEcrptedChar];
                                 let newIndexInEncryptKeys = encriptedCharIndexInKeys - keyIndexInKeys;
@@ -285,7 +297,7 @@
                     let newIndexInWordsArray = wordsIndexArray[currentChar] - firstEcryptArray.length;
                     if(newIndexInWordsArray < 0){
                         let positiveNumber = Math.abs(newIndexInWordsArray);
-                        let elementPosition = 25 - positiveNumber + 1
+                        let elementPosition = 26 - positiveNumber + 1
                         newIndexInWordsArray = elementPosition;
                     }
                     firstEcryptArray[n] = wordsArray[newIndexInWordsArray];
@@ -293,19 +305,19 @@
             }
         }else{
             for (let i = 0; i < words.value.length; i++) {
-                let currentChar = words.value[i]; // Get the current character
+                let currentChar = lowerCaseWords[i]; // Get the current character
                 if(wordsIndexArray[currentChar] != undefined){
                     let newIndexInWordsArray = wordsIndexArray[currentChar] - wordsLength;
                     if(newIndexInWordsArray < 0){
                         let positiveNumber = Math.abs(newIndexInWordsArray);
-                        let elementPosition = 25 - positiveNumber + 1
+                        let elementPosition = 26 - positiveNumber + 1
                         newIndexInWordsArray = elementPosition;
                     }
                     firstEcryptArray.push(wordsArray[newIndexInWordsArray]);
                 }
             }
         }
-        output.value = firstEcryptArray.join('');
+        output.value = firstEcryptArray.map(char => char === '^' ? ' ' : char).join('');
         console.log("decrypted  == ",firstEcryptArray);
        
     });
