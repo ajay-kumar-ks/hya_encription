@@ -189,35 +189,30 @@
     let encryptButton = document.getElementById('submit');
     let decryptButton = document.getElementById('decode'); 
     var wordsArray = [
-    '', 
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-    'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-    'u', 'v', 'w', 'x', 'y', 'z', '^'
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+        'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+        'u', 'v', 'w', 'x', 'y', 'z' , '^'
     ];
-
     var wordsIndexArray = {
-        a: 1,  b: 2,  c: 3,  d: 4,  e: 5,  f: 6,  g: 7,  h: 8,  i: 9,  j: 10,
-        k: 11, l: 12, m: 13, n: 14, o: 15, p: 16, q: 17, r: 18, s: 19, t: 20,
-        u: 21, v: 22, w: 23, x: 24, y: 25, z: 26, '^': 27
+        a: 0,  b: 1,  c: 2,  d: 3,  e: 4,  f: 5,  g: 6,  h: 7,  i: 8,  j: 9,
+        k: 10, l: 11, m: 12, n: 13, o: 14, p: 15, q: 16, r: 17, s: 18, t: 19,
+        u: 20, v: 21, w: 22, x: 23, y: 24, z: 25 ,'^': 26
     };
-
     
     var encryptKeys = [
-    '',
-    'a', '1', 'b', '@', 'c', '2', 'd', '#', 'e', '3', 'f', '$', 'g', '4', 'h', '%',
-    'i', '5', 'j', '^', 'k', '6', 'l', '&', 'm', '7', 'n', '*', 'o', '8', 'p', '?',
-    'q', '9', 'r', '<', 's', '0', 't', '>', 'u', 'v', 'w', 'x', 'y', 'z'
+       'a','1', 'b','@', 'c','2', 'd','#', 'e','3', 'f','$', 'g','4', 'h','%', 'i','5', 'j','^',
+        'k','6', 'l','&', 'm', '7','n','*', 'o','8', 'p', '?','q','9', 'r','<', 's','0', 't','>',
+        'u', 'v', 'w', 'x', 'y', 'z'
     ];
 
     var encryptIndexKeys = {
-        a: 1,  '1': 2,  b: 3,  '@': 4,  c: 5,  '2': 6,  d: 7,  '#': 8,  
-        e: 9,  '3': 10,  f: 11,  '$': 12,  g: 13,  '4': 14,  h: 15,  '%': 16,  
-        i: 17,  '5': 18,  j: 19,  '^': 20,  k: 21,  '6': 22,  l: 23,  '&': 24,  
-        m: 25,  '7': 26,  n: 27,  '*': 28,  o: 29,  '8': 30,  p: 31,  '?': 32,  
-        q: 33,  '9': 34,  r: 35,  '<': 36,  s: 37,  '0': 38,  t: 39,  '>': 40,  
-        u: 41,  v: 42,  w: 43,  x: 44,  y: 45,  z: 46
-    };
-   
+        a: 0,  1: 1,  b: 2,  "@": 3,  c: 4,  2: 5,  d: 6,  "#": 7,  
+        e: 8,  3: 9,  f: 10,  "$": 11,  g: 12,  4: 13,  h: 14,  "%": 15,  
+        i: 16,  5: 17,  j: 18,  "^": 19,  k: 20,  6: 21,  l: 22,  "&": 23,  
+        m: 24,  7: 25,  n: 26,  "*": 27,  o: 28,  8: 29,  p: 30,  "?": 31,  
+        q: 32,  9: 33,  r: 34,  "<": 35,  s: 36,  0: 37,  t: 38,  ">": 39,  
+        u: 40,  v: 41,  w: 42,  x: 43,  y: 44,  z: 45
+    };    
     
     
     encryptButton.addEventListener('click', function () {
@@ -232,18 +227,16 @@
             }
             if(wordsIndexArray[currentChar] != undefined){
                 let newIndexInWordsArray = wordsIndexArray[currentChar] + wordsLength;
-                if(newIndexInWordsArray > 27){
-                    let newLettersLength = wordsLength % 27;
-                    newIndexInWordsArray = newLettersLength + wordsIndexArray[currentChar];
-                    if(newIndexInWordsArray > 27){
-                        newIndexInWordsArray = (newIndexInWordsArray%27);
+                if(newIndexInWordsArray > 26){
+                    newIndexInWordsArray = (newIndexInWordsArray%26)-1;
+                    if(newIndexInWordsArray == -1){
+                        newIndexInWordsArray = 26;
                     }
                 }
                 firstEcryptArray.push(wordsArray[newIndexInWordsArray]);
             }
         }
 
-        console.log("firstEcryptArray here == ",firstEcryptArray);
        
         if(key.value != ''){
             var lowerCaseKey = key.value.toLowerCase();
@@ -260,8 +253,8 @@
                         if(encryptIndexKeys[currentEcrptedChar] != undefined){
                             let encriptedCharIndexInKeys = encryptIndexKeys[currentEcrptedChar];
                             let newIndexInEncryptKeys = encriptedCharIndexInKeys + keyIndexInKeys;
-                            if(newIndexInEncryptKeys > 46){
-                                newIndexInEncryptKeys = (newIndexInEncryptKeys%46);
+                            if(newIndexInEncryptKeys > 45){
+                                newIndexInEncryptKeys = (newIndexInEncryptKeys%45)-1;
                             }
                             firstEcryptArray[k] = encryptKeys[newIndexInEncryptKeys];
                         }
@@ -292,8 +285,8 @@
                             if(encryptIndexKeys[currentEcrptedChar] != undefined){
                                 let encriptedCharIndexInKeys = encryptIndexKeys[currentEcrptedChar];
                                 let newIndexInEncryptKeys = encriptedCharIndexInKeys - keyIndexInKeys;
-                                if(newIndexInEncryptKeys <= 0){
-                                    newIndexInEncryptKeys = (newIndexInEncryptKeys + 46);
+                                if(newIndexInEncryptKeys < 0){
+                                    newIndexInEncryptKeys = (newIndexInEncryptKeys + 45)+1;
                                 }
                                 firstEcryptArray[k] = encryptKeys[newIndexInEncryptKeys];
                             }
@@ -305,7 +298,7 @@
                                 let encriptedCharIndexInKeys = encryptIndexKeys[currentEcrptedChar];
                                 let newIndexInEncryptKeys = encriptedCharIndexInKeys - keyIndexInKeys;
                                 if(newIndexInEncryptKeys < 0){
-                                    newIndexInEncryptKeys = (newIndexInEncryptKeys + 46);
+                                    newIndexInEncryptKeys = (newIndexInEncryptKeys + 45)+1;
                                 }
                                 firstEcryptArray[n] = encryptKeys[newIndexInEncryptKeys];
                             }
@@ -313,72 +306,37 @@
                     }
                 }
             }
-            console.log('first decrypted array heree ==> ',firstEcryptArray);
 
             for (let n = 0; n < firstEcryptArray.length; n++) {
                 let currentChar = firstEcryptArray[n];
                 if(wordsIndexArray[currentChar] != undefined){
-                    let ele = 0;
                     let newIndexInWordsArray = wordsIndexArray[currentChar] - firstEcryptArray.length;
-                    if(newIndexInWordsArray > 27){
-                        let newLettersLength = wordsLength % 27;
-                        console.log("newLettersLength == ",newLettersLength);
-                        ele = wordsIndexArray[currentChar];
-                        for (let v = newLettersLength; v > 0; v--) {
-                          if(ele == 1){
-                            ele = 28;
-                          }
-                          ele --;
-                        }
-                        if(newLettersLength == wordsIndexArray[currentChar]){
-                            ele = 27;
-                        }
-                    }else{
-                        ele = wordsIndexArray[currentChar];
-                        for (let v = wordsLength; v > 0; v--) {
-                          if(ele == 1){
-                            ele = 28;
-                          }
-                          ele --;
-                        }
+                    if(newIndexInWordsArray < 0){
+                        let positiveNumber = Math.abs(newIndexInWordsArray);
+                        let elementPosition = 26 - positiveNumber + 1
+                        newIndexInWordsArray = elementPosition;
                     }
-                    firstEcryptArray[n] = wordsArray[ele];
+                    firstEcryptArray[n] = wordsArray[newIndexInWordsArray];
                 }
             }
-            console.log("firstDecryptArray == ",firstEcryptArray);
         }else{
-            console.log("wordsLength == ",wordsLength);
             for (let i = 0; i < words.value.length; i++) {
                 let currentChar = lowerCaseWords[i]; // Get the current character
                 if(wordsIndexArray[currentChar] != undefined){
-                    let ele = 0;
-                    let newIndexInWordsArray = wordsIndexArray[currentChar] + wordsLength;
-                    if(newIndexInWordsArray > 27){
-                        let newLettersLength = wordsLength % 27;
-                        console.log("newLettersLength == ",newLettersLength);
-                        ele = wordsIndexArray[currentChar];
-                        for (let v = newLettersLength; v > 0; v--) {
-                          if(ele == 1){
-                            ele = 28;
-                          }
-                          ele --;
+                    let newIndexInWordsArray = wordsIndexArray[currentChar] - wordsLength;
+                    if(newIndexInWordsArray < 0){
+                        let positiveNumber = Math.abs(newIndexInWordsArray);
+                        let elementPosition = 26 - positiveNumber + 1
+                        if(elementPosition < 0){
+                            console.log("positiveNumber == ",positiveNumber);
+                            console.log("elementPosition == ",elementPosition);
+                            elementPosition = Math.abs(elementPosition);
                         }
-                        if(newLettersLength == wordsIndexArray[currentChar]){
-                            ele = 27;
-                        }
-                    }else{
-                        ele = wordsIndexArray[currentChar];
-                        for (let v = wordsLength; v > 0; v--) {
-                          if(ele == 1){
-                            ele = 28;
-                          }
-                          ele --;
-                        }
+                        newIndexInWordsArray = elementPosition;
                     }
-                    firstEcryptArray.push(wordsArray[ele]);
+                    firstEcryptArray.push(wordsArray[newIndexInWordsArray]);
                 }
             }
-            console.log("firstDecryptArray == ",firstEcryptArray);
         }
         output.value = firstEcryptArray.map(char => char === '^' ? ' ' : char).join('');
         console.log("decrypted  == ",firstEcryptArray);
