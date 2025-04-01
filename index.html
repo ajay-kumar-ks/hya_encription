@@ -243,7 +243,6 @@
             }
         }
 
-        console.log("firstEcryptArray here == ",firstEcryptArray);
        
         if(key.value != ''){
             var lowerCaseKey = key.value.toLowerCase();
@@ -271,7 +270,6 @@
         }
 
         output.value = firstEcryptArray.join('');
-        console.log("encrypted  ==> ",firstEcryptArray);
     });
     
     
@@ -313,7 +311,6 @@
                     }
                 }
             }
-            console.log('first decrypted array heree ==> ',firstEcryptArray);
 
             for (let n = 0; n < firstEcryptArray.length; n++) {
                 let currentChar = firstEcryptArray[n];
@@ -345,9 +342,7 @@
                     firstEcryptArray[n] = wordsArray[ele];
                 }
             }
-            console.log("firstDecryptArray == ",firstEcryptArray);
         }else{
-            console.log("wordsLength == ",wordsLength);
             for (let i = 0; i < words.value.length; i++) {
                 let currentChar = lowerCaseWords[i]; // Get the current character
                 if(wordsIndexArray[currentChar] != undefined){
@@ -355,7 +350,6 @@
                     let newIndexInWordsArray = wordsIndexArray[currentChar] + wordsLength;
                     if(newIndexInWordsArray > 27){
                         let newLettersLength = wordsLength % 27;
-                        console.log("newLettersLength == ",newLettersLength);
                         ele = wordsIndexArray[currentChar];
                         for (let v = newLettersLength; v > 0; v--) {
                           if(ele == 1){
@@ -378,10 +372,8 @@
                     firstEcryptArray.push(wordsArray[ele]);
                 }
             }
-            console.log("firstDecryptArray == ",firstEcryptArray);
         }
         output.value = firstEcryptArray.map(char => char === '^' ? ' ' : char).join('');
-        console.log("decrypted  == ",firstEcryptArray);
        
     });
 </script>
